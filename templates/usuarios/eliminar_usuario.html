@@ -1,0 +1,54 @@
+{% extends "base.html"%}
+{% block subpagina%}Inicio{% endblock%}
+{% block content%}
+		<h2>Borrar Usuarios</h2>
+	   	<p>click en la casilla final de cada trabajador y click en borrar para eleminara a los trabajadores seleccionados</p>
+	<table class="table table-hover">
+	    <thead>
+	        <tr>
+	        	<th>Correo</th>
+	        	<th>Trabajador</th>
+	        	<th>Permisos</th>
+	        </tr>
+	    </thead>
+	   	    <tbody>
+	  	    	{% for usuario in usuarios %}
+				<tr>
+		        	<td>{{usuario.correo}}</td>
+		        	<td>{{usuario.id_trabajador|nameByID}}</td>
+		        	<td>{{usuario.rol|rolName}}</td>
+		        	<td><input type="checkbox" id_usuario="{{usuario.id}}"></td>
+		    	</tr>
+	   			{% endfor %}		    	             
+   				</tbody>
+	</table>
+
+	<center><button type="button" class="btn btn-danger" id="borrar">Borrar</button></center>
+{% endblock %}
+{% block scripts %}
+<script>
+	$("#borrar").click(function(){
+		pulsados=[]
+		$(":checkbox").each(function(){
+			if($(this).prop('checked')){
+				pulsados.push($(this).attr("id_usuario"))
+			}
+		});
+		 $.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: "{{url_for('eliminar_usuario')}}",
+						  data: JSON.stringify({ids:pulsados}),
+						  success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+						  },
+						  dataType: "json"
+						});
+
+
+	});
+
+	
+</script>
+{% endblock %}

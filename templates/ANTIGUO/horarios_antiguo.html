@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+	<html>
+		<head>
+		    <title>100M {{session["local"]|localName}}</title>
+		 
+		 
+		    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+		    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+		 	<link rel="stylesheet" type="text/css" href="/static/css/stilo.css">
+		</head>
+		<body>
+			<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  				<a class="navbar-brand" href="{{url_for('main')}}">Rerovaji</a>
+  				<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    			<span class="navbar-toggler-icon"></span>
+  				</button>
+  				<div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    				<div class="navbar-nav">
+      					<a class="nav-item nav-link active" href="#" onclick="cambiarLocal()">Local:&nbsp;({{session['local']|localName}})<span class="sr-only">(current)</span></a>
+      					<a class="nav-item nav-link" href="{{url_for('logout')}}" style="position: absolute;right: 0px;">{{session["user"]}}</a>
+    				</div>
+  				</div>
+			</nav>
+			<i class="graficar_dia" data-url="{{url_for('graficar_dia')}}"></i>
+			<i class="modificar_horario" data-url="{{url_for('modificar_horario')}}"></i>
+			<i class="getHoras" data-url="{{url_for('getHoras')}}"></i>
+			<div class="row">
+  				<div class="col-md-9">
+  				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;	   
+	  			</div>
+	  			<div class="col-md-3">
+	    			<div class="mando" onmouseover="crecer(this)" onmouseout="menguar(this)">
+	    				<div class="peque" style="visibility: visible;">
+	    					<center>
+	    						<img src="https://cdn1.iconfinder.com/data/icons/flat-business-icons/128/calendar-512.png" style="width: 64px; height: 64px;">
+	    					</center>
+	    				</div>
+	    				<div class="grande" style="visibility: hidden;">
+	    					<center>
+			    				<h3>Horarios frecuentes</h3>
+			    				<p>	
+			    					<button class="btn btn-outline-secondary frecuente" onclick="mando('libre',false)">libre</button>
+			    				</p>
+			    				<p>		    				
+			    					<button class="btn btn-outline-secondary frecuente" onclick="mando('9:30-17:00',false)">9:30-17:00</button>
+			    					<button class="btn btn-outline-secondary frecuente" onclick="mando('10:00-17:00',false)">10:00-17:00</button>
+									<button class="btn btn-outline-secondary frecuente" onclick="mando('17:00-cierre',false)">17:00-cierre</button>
+									<button class="btn btn-outline-secondary frecuente" onclick="mando('19:00-cierre',false)">19:00-cierre</button>
+								</p>
+								<p>
+									<button class="btn btn-outline-secondary frecuente" onclick="mando('13:00-16:00/20:00-00:00',false)">13:00-16:00/20:00-00:00</button>
+									<button class="btn btn-outline-secondary frecuente" onclick="mando('14:00-17:00/21:00-00:00',false)">14:00-17:00/21:00-00:00</button>
+								</p>
+								<p>
+									<button class="btn btn-outline-secondary frecuente" onclick="mando('9:30-17:00',true)">Semana mañana</button>
+									<button class="btn btn-outline-secondary frecuente"onclick="mando('17:00-cierre',true)">Semana noche</button>
+								</p>
+								<p><button class="btn btn-primary" onclick="parar()">Parar</button></p>
+								
+							</center>
+						</div>	      				
+	    			</div>
+	  			</div>
+			</div>
+		
+			<div class="container">
+				<center>
+		        <div class="header">
+		            <a href="{{ url_for('main') }}"><h3 class="text-muted">100M {{session["local"]|localName}}</h3></a>
+		        </div>
+		        </center>
+		    
+		    </div>
+		    <div class="jumbotron">
+		    	<h2>Horario</h2>
+				<p>semana del {{inicio}} al {{fin}}</p>            
+				<table class="table table-bordered">
+					<thead style="background-color: white;">
+				    	<tr>
+				        	<th>&nbsp;</th>
+
+				        	{% for dia in tiempo%}
+				        		<th>
+				        			<font size=1>
+				        			<li style="color:black;">Tiempo&nbsp;({{dia.fecha}}):
+    									<ul>
+      										<li>Maxima:{{dia.maximo}}</li>
+									      	<li>Minima:{{dia.minimo}}</li>
+									      	<li>Viento:{{dia.viento}}</li>
+									      	<li>LLuvia:{{dia.lluvia}}</li>
+									    </ul>
+									</li>
+									</font>				        		
+				        		</th>
+				        	{% endfor %}
+				     
+				      	</tr>
+				    </thead>
+					<thead id="cabecera_horarios">
+				    	<tr>
+				        	<th>Nombre</th>
+				        	<th onclick="openInNewTab('lunes')">Lunes</th>
+				        	<th onclick="openInNewTab('martes')">Martes</th>
+				        	<th onclick="openInNewTab('miercoles')">Miercoles</th>
+				        	<th onclick="openInNewTab('jueves')">Jueves</th>
+				        	<th onclick="openInNewTab('viernes')">Viernes</th>
+				        	<th onclick="openInNewTab('sabado')">Sabado</th>
+				        	<th onclick="openInNewTab('domingo')">Domingo</th>
+				        	<th>Horas</th>
+				      	</tr>
+				    </thead>
+				    <tbody id="cuerpo_horarios">
+				    	{%for turno in horario%}
+
+		    			<tr id="{{turno.id}}" idTrabajador="{{turno.id_trabajador}}">	
+					       	<td>
+					       		{{turno.id_trabajador|nameByID}}
+					       	</td>
+					       	<td>
+					       		<input style="text-align: center;" class="form-control lunes" id="lunes" placeholder="{{turno.lunes}}" onclick="borrado(this)" onfocusout="corregir(this)">
+					       	</td>
+					       	<td>
+					       		<input style="text-align: center;" class="form-control martes" id="martes" placeholder="{{turno.martes}}" onclick="borrado(this)" onfocusout="corregir(this)">
+					       	</td>
+					       	<td>
+					       		<input style="text-align: center;" class="form-control miercoles" id="miercoles" placeholder="{{turno.miercoles}}" onclick="borrado(this)" onfocusout="corregir(this)">
+					       	</td>
+					       	<td>
+					       		<input style="text-align: center;"  class="form-control jueves" id="jueves" placeholder="{{turno.jueves}}" onclick="borrado(this)" onfocusout="corregir(this)">
+					       	</td>
+					       	<td>
+					       		<input style="text-align: center;" class="form-control viernes" id="viernes" placeholder="{{turno.viernes}}" onclick="borrado(this)" onfocusout="corregir(this)">
+					       	</td>
+					       	<td>
+					       		<input style="text-align: center;" class="form-control sabado" id="sabado" placeholder="{{turno.sabado}}" onclick="borrado(this)" onfocusout="corregir(this)">
+					       	</td>
+					       	<td>
+					       		<input style="text-align: center;" class="form-control domingo" id="domingo" placeholder="{{turno.domingo}}" onclick="borrado(this)" onfocusout="corregir(this)">
+					       	</td>
+					       	<td id="horas" style="color:black; text-align: center;">
+					       		{{turno.horas}}
+					       	</td>
+					    </tr>
+				        {%endfor%}
+				      	
+				  	</tbody>
+				  	
+				</table>
+				<p><center><button class="btn btn-primary btn-warning" id="modificar">Guardar</button></center></p>
+				<p><center><a href="{{url_for('salir_sin_guardar')}}"><button class="btn btn-primary" >Salir sin guardar</button></a></center><p>
+
+		    	
+		    </div>
+
+		</body>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="/static/js/corrector.js"></script>
+		
+		<script src="/static/js/controlHorario.js"></script>
+			
+		
+		
+</html>

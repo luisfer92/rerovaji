@@ -1,0 +1,63 @@
+{% extends "base-trabajador.html"%}
+{% block subpagina%}Inicio{% endblock%}
+
+{% block estado %}sidenav-toggled{% endblock %}
+
+{% block content%}
+		<div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Horario ({{horario[0].inicio}}-{{horario[0].fin}}) </div>
+        <div class="card-body">
+          
+            <table class="table table-bordered"  width="100%" cellspacing="0">
+
+              <thead>
+
+                <tr>
+                  <th class="centrado">Nombre </th>
+                  <th class="centrado">Lunes</th>
+                  <th class="centrado">Martes</th>
+                  <th class="centrado">Miercoles</th>
+                  <th class="centrado">Jueves</th>  
+                  <th class="centrado">Viernes</th>
+                  <th class="centrado">Sabado</th>  
+                  <th class="centrado">Domingo</th>
+                                 
+                </tr>
+
+              </thead>
+
+              <tbody>
+              {% for turno in horario %}
+              
+                	
+                <tr>
+                    <td>{{turno.id_trabajador|nameByID}}</td>
+                    <td class="reducible centrado">{{turno.lunes}}</td>
+                    <td class="reducible centrado">{{turno.martes}}</td>
+                    <td class="reducible centrado">{{turno.miercoles}}</td>
+                    <td class="reducible centrado">{{turno.jueves}}</td>
+                    <td class="reducible centrado">{{turno.viernes}}</td>
+                    <td class="reducible centrado">{{turno.sabado}}</td>
+                    <td class="reducible centrado">{{turno.domingo}}</td>                                  
+                </tr>
+               {% endfor %}
+               
+              </tbody>
+            </table>
+          
+        </div>
+{% endblock %}
+{% block scripts %}
+<script>
+	$( document ).ready(function() {
+   		$(".reducible").each(function(){
+   			if($(this).html().length>15){
+   				css=$(this).attr("class")
+   				css=css+" reducido"
+   				$(this).attr("class",css);
+   			}
+   		});
+	});
+</script>
+{% endblock %}

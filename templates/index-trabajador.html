@@ -1,0 +1,19 @@
+{% extends "base-trabajador.html"%}
+{% from "/macros/widgets.html" import cambios,control_acceso %}
+
+{% block subpagina%}Inicio{% endblock%}
+
+
+
+
+{% block content%}
+	
+    	<p><h1>{{session["rol"]}}: &nbsp;<span style="color:red">{{trabajador.nombre}}</span></h1></p>
+
+    	{{cambios()}}
+
+    	{{control_acceso(trabajador.nombre,firmas)}}
+    	
+{% endblock %}
+{% block scripts %}
+{%endblock%}

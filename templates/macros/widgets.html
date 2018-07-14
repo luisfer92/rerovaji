@@ -1,0 +1,67 @@
+{% macro cambios()%}
+
+<div class="card mb-3">
+    <div class="card-header">
+              <i class="fa fa-bell-o"></i> Cambios sugeridos</div>
+            <div class="list-group list-group-flush small">
+              <a class="list-group-item list-group-item-action" href="#">
+                <div class="media">
+                  <img class="d-flex mr-3 rounded-circle" src="/static/images/usuario64x64.png" alt="">
+                  <div class="media-body">
+                    <strong>CAMBIO EN HORARIO :</strong>&nbsp; el jueves tengo apertura y el viernes tengo apertur
+                    
+                    <div class="text-muted smaller">Status: <i class="fa fa-circle aprobado"> </i></div>
+                  </div>
+                </div>
+              </a>
+              <a class="list-group-item list-group-item-action" href="#">
+              	Aprobado: <i class="fa fa-circle aprobado"> </i>  &nbsp;
+              	Rechazado: <i class="fa fa-circle rechazado"></i>  &nbsp;
+              	No leido: <i class="fa fa-circle-o"></i>  &nbsp;
+              </a>
+            </div>
+            <div class="card-footer small text-muted">
+            	<button class="btn btn-primary btn-success">Agregar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endmacro%}
+
+
+
+
+
+{% macro control_acceso(nombre,datos) %}
+	<div class="card mb-3">
+        <div class="card-header">
+          <i class="fa fa-table"></i> Parte Firmas {{nombre}} </div>
+        <div class="card-body">
+          <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+
+              <thead>
+
+                <tr>
+                  <th>Fecha</th>
+                  <th>Entrada</th>
+                  <th>Salida</th>                
+                </tr>
+
+              </thead>
+
+              <tbody>
+              {% for f in datos %}
+                <tr>
+                  <td>{{f.fecha}}</td>
+                  <td>{{f.entrada}}</td>
+                  <td>{{f.salida}}</td>
+                  
+                </tr>
+               {% endfor %}
+               
+              </tbody>
+            </table>
+          </div>
+        </div>
+{% endmacro %}

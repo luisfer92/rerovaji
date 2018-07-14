@@ -1,0 +1,75 @@
+{% extends "base.html"%}
+
+{% block subpagina%}Inicio{% endblock%}
+{% block estilos %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+{% endblock %}
+{% block content%}
+
+		
+			<center>
+			<p>
+				<label for="fecha">Fecha inicio:
+	 			<input type="text" id="fecha" value="" />
+				</label>
+			
+
+			
+				<label for="fechafin">Fecha fin:
+	 			<input type="text" id="fechafin" value="" />
+				</label>
+			</p>
+			<button class="btn btn-primary" id="nuevo">Crear</button>
+			</center>
+
+{% endblock %}
+{% block scripts %}
+
+<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+		
+		<script>
+		 $.datepicker.regional['es'] = {
+		 closeText: 'Cerrar',
+		 prevText: '< Ant',
+		 nextText: 'Sig >',
+		 currentText: 'Hoy',
+		 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+		 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+		 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+		 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+		 weekHeader: 'Sm',
+		 dateFormat: 'dd/mm/yy',
+		 firstDay: 1,
+		 isRTL: false,
+		 showMonthAfterYear: false,
+		 yearSuffix: ''
+		 };
+		 $.datepicker.setDefaults($.datepicker.regional['es']);
+		$(function () {
+			$("#fecha").datepicker();
+		});
+		$(function () {
+			$("#fechafin").datepicker();
+		});
+		</script>
+
+<script type="text/javascript">
+	$("#nuevo").click(function(){
+		var ini=$("#fecha").val();
+		var fin=$("#fechafin").val();
+
+		$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: "{{url_for('nuevo_horario')}}",
+						  data: JSON.stringify({inicio:ini,fin:fin}),
+						  success: function (data) {
+						    console.log(data.status)
+						    window.location.href=data.url
+						  },
+						  dataType: "json"
+						});
+	});
+</script>
+{% endblock %}

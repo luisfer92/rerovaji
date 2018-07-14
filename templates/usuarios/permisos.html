@@ -1,0 +1,83 @@
+{% extends "base.html"%}
+{% block subpagina%}Inicio{% endblock%}
+{% block content%}
+<table class="table table-hover">
+	    <thead>
+	        <tr>
+	        	<th>Correo</th>
+	        	<th>Trabajador</th>
+	        	<th>Permisos</th>
+	        </tr>
+	    </thead>
+	   	    <tbody>
+	   	    	{% for usuario in usuarios %}
+	   	    		<tr>
+		        		<td>{{usuario.correo}}</td>
+		        		<td>
+		        			<select class="trabajador" correo="{{usuario.correo}}">
+  								<option value="{{usuario.id_trabajador}}">{{usuario.id_trabajador|nameByID}}</option>
+  								{%for trabajador in trabajadores%}
+  									<option value="{{trabajador.id}}">{{trabajador.nombre}}</option>
+  								{% endfor %}
+							</select>
+				   		<td>
+			        		<select class="rol" correo="{{usuario.correo}}">
+  								<option value="usuario.rol">{{usuario.rol|rolName}}</option>
+  								<option value="1">ADMIN</option>
+  								<option value="2">ENCARGADO</option>
+  								<option value="3">TRABAJADOR</option>
+  								<option value="4">NO AUTORIZADO</option>
+							</select>
+			       		</td>			        	
+		    		</tr>
+				{% endfor %}
+	   	    	
+		    </tbody>
+</table>
+<center>
+	<a href="{{url_for('main')}}" ><button class="btn btn-primary">Volver</button></a>
+</center>	
+{% endblock%}
+
+{% block scripts %}
+<script>
+	$(".trabajador").change(function(){
+		var correo=($(this).attr("correo"));
+		var trabajador_id=($(this).find(":selected").attr("value"));
+
+		$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "{{url_for('asignar_permiso')}}",
+			data: JSON.stringify({correo:correo,trabajador_id:trabajador_id}),
+			success: function (data) {
+						    console.log(data.status)
+						    
+					},
+			dataType: "json"
+		});
+
+	});
+
+	
+	$(".rol").change(function(){
+		var rol=($(this).find(":selected").attr("value"));
+		var correo=($(this).attr("correo"))
+		console.log("el usuario ->"+correo+" cambia al rol ->"+rol)
+
+		$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "{{url_for('asignar_permiso')}}",
+			data: JSON.stringify({correo:correo,rol:rol}),
+			success: function (data) {
+						    console.log(data.status)
+						    
+					},
+			dataType: "json"
+		});
+
+	});
+</script>
+{% endblock %}
+

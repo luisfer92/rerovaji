@@ -1,0 +1,53 @@
+{% extends "base.html"%}
+{% block subpagina%}Sugerencias{% endblock%}
+
+{% block content %}
+	
+	<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>Tema</th>
+					<th>Sugerencia</th>
+				</tr>
+			</thead>
+				
+			<tbody>	
+				<tr>
+					<td>
+						<select class="tema" id_sugerencia="{{id_sugerencia}}">
+  						{% for t in temas%}
+  							<option value="{{t.id}}">{{t.tema}}</option>
+  						{% endfor %}		
+						</select>
+					</td>
+					<td>
+						<textarea>
+							hola
+						</textarea>
+					</td>
+					{% for s in sugerencias%}
+				<tr>
+					<td>
+						<select class="tema" id_sugerencia="{{id_sugerencia}}">
+  						{% for t in temas%}
+  							<option value="{{t.id}}">{{t.tema}}</option>
+  						{% endfor %}		
+						</select>
+					</td>
+					<td>
+						<textarea>
+							
+						</textarea>
+					</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+	</table>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		alert("hola")
+	</script>
+{% endblock %}

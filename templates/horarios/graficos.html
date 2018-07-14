@@ -1,0 +1,68 @@
+{% extends "base.html"%}
+{% block subpagina%}Inicio{% endblock%}
+{% block content%}
+	{% for k in keys%}
+		<i class="key" key="{{k}}"></i>
+	{% endfor %}
+
+	{% for v in values%}
+		<i class="value" value="{{v}}"></i>
+	{% endfor %}
+		    	
+		<i dia="{{dia}}"></i>
+		    	
+		    	
+		    	
+	{%for h in personas_hora%}
+		<span hora="{{h}}" numero="{{personas_hora[h]}}"></span>
+		   	{% endfor %}
+		<canvas id="canvas"></canvas>
+{% endblock %}		    
+{% block scripts %}
+		<script src="/static/js/Chart.js"></script>
+		<script type="text/javascript">
+			$( document ).ready(function() {
+				var keys=[]
+				var vals=[]
+				$(".key").each(function(){
+					keys.push($(this).attr("key"))
+				});
+				$(".value").each(function(){
+					vals.push($(this).attr("value"))
+				});
+				console.log(keys)
+				console.log(vals)
+
+				var horizontalBarChartData = {
+					labels: keys,
+					datasets: [{
+						label: 'Personas',
+						backgroundColor: "#0066ff",
+						borderColor: "#0066ff",
+						borderWidth: 1,
+						data: vals
+					}]
+				};
+
+				var ctx = document.getElementById('canvas').getContext('2d');
+				window.myHorizontalBar = new Chart(ctx, {
+							type: 'bar',
+							data: horizontalBarChartData,
+							options: {
+										elements: {
+													rectangle: {borderWidth: 2,}					
+												},
+										responsive: true,
+										legend: {
+													position: 'right',
+												},
+										title: {
+												display: true,
+												text: "{{dia}}"
+												}
+									}
+							});
+			});
+	
+		</script>
+	{% endblock %}

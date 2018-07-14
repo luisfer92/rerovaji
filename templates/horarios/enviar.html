@@ -1,0 +1,38 @@
+<{% extends "base.html"%}
+
+{% block subpagina%}Enviar horario{% endblock%}
+
+{% block content%}
+
+	{% for horario in horarios %}
+		<a href="#" inicio="{{horario.inicio}}" fin="{{horario.fin}}" onclick="entrar(this)">
+			<p>Horario de la semana del {{horario.inicio}} al {{horario.fin}}</p>
+		</a>
+		    		
+	{% endfor %}
+		    
+{% endblock %}
+{% block scripts%}
+		<script type="text/javascript">
+			function entrar(enlace){
+				var inicio=$(enlace).attr("inicio");
+				var fin=$(enlace).attr("fin");
+				
+				$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: "{{url_for('enviar_horario')}}",
+						  data: JSON.stringify({inicio:inicio,fin:fin}),
+						  success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+						  },
+						  dataType: "json"
+						});
+				
+				
+			
+
+			}
+		</script>
+{% endblock %}

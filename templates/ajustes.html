@@ -1,0 +1,89 @@
+{% extends "base.html"%}
+{% block subpagina%}Inicio{% endblock%}
+{% block content%}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			
+			<td class="text-center">Clave</td>
+			<td class="text-center">Valor</td>
+			
+		</tr>
+	</thead>
+
+	<tbody>
+		<tr>
+			<td>
+				<input id="clave" class="form-control" placeholder="nueva clave"></input>
+			</td>
+			<td>
+				<input id="valor" class="form-control" placeholder="nuevo valor"></input>
+			</td>
+			<td class="text-center">
+				<button  class="btn btn-primary btn-success" onclick="crear()">Crear</button>
+			</td>
+		</tr>
+	{% for ajuste in ajustes %}
+	
+		<tr>
+			<td id="clave-{{ajuste.id}}" class="text-center">{{ajuste.clave}}</td>
+			<td class="text-center">
+				<input id="valor-{{ajuste.id}}" class="form-control" placeholder="{{ajuste.valor}}"></input></td>
+			<td class="text-center">
+				<button  class="btn btn-primary btn-danger" onclick="borrar({{ajuste.id}})">Borrar</button>
+			</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+
+</table>
+
+{% endblock %}
+
+{% block scripts %}
+	<script>
+		function llamada(url,data){
+			$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: url,
+						  data: JSON.stringify(data),
+						  success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+						  },
+						  dataType: "json"
+						});
+		}
+		function crear(){
+			clave=$("#clave").val()
+			valor=$("#valor").val()
+
+			console.log(clave+" "+valor)
+			if (clave!="" & valor!=""){
+				data={clave:clave,valor:valor}
+				url="{{url_for('crear_ajuste')}}"
+				llamada(url,data)
+			}
+
+			if (clave==""){
+				$("#clave").css("background-color","red")
+			}
+
+			if (valor==""){
+				$("#valor").css("background-color","red")
+			}
+		}
+
+		function borrar(id_ajuste){
+			
+
+			url="{{ url_for ('borrar_ajuste')}}"
+
+			data={id_ajuste:id_ajuste}
+			llamada(url,data)
+
+			console.log("claves "+clave+" , "+valor)
+		}
+	</script>
+{% endblock %}

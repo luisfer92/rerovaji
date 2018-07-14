@@ -1,0 +1,29 @@
+{% extends "base.html"%}
+{% block subpagina%}Extras{% endblock%}  
+
+{% block content%}
+<table class="table table-bordered">
+	<thead>
+		<tr>
+			<td>Nombre</td>
+			<td class="text-center">Contratadas</td>
+			<td class="text-center">Trabajadas</td>
+			<td class="text-center">Horas extra</td>
+		</tr>
+	</thead>
+
+	<tbody>
+	{% for nombre in extras %}
+	{% set info=extras[nombre]%}
+		<tr>
+			<td>{{nombre}}</td>
+			<td class="text-center">{{info["trabajador"].contrato}}</td>
+			<td class="text-center">{{info["total"]}}</td>
+			<td class="text-center">{{info["extras"]}}</td>
+		</tr>
+	{% endfor %}
+	</tbody>
+
+</table>
+
+{% endblock %}

@@ -1,0 +1,73 @@
+{% extends "base.html"%}
+
+{% block subpagina%}Inicio{% endblock%}
+{% block estilos %}
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.1/themes/base/jquery-ui.css" />
+{% endblock %}
+{% block content%}
+
+		<div class="selector">
+			<center>
+			<h1>Selecciona un mes </h1>
+			<p>
+				<label for="fecha">Fecha inicio:
+	 			<input type="text" id="fecha" value="" />
+				</label>
+			
+			</p>
+			<button class="btn btn-primary" id="nuevo">Buscar</button>
+			</center>
+		</div>
+
+		
+
+{% endblock %}
+{% block scripts %}
+<script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+		<script src="http://code.jquery.com/ui/1.10.1/jquery-ui.js"></script>
+		
+		<script>
+		 $.datepicker.regional['es'] = {
+		 closeText: 'Cerrar',
+		 prevText: '< Ant',
+		 nextText: 'Sig >',
+		 currentText: 'Hoy',
+		 monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+		 monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+		 dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+		 dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+		 dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+		 weekHeader: 'Sm',
+		 dateFormat: 'dd/mm/yy',
+		 firstDay: 1,
+		 isRTL: false,
+		 showMonthAfterYear: false,
+		 yearSuffix: ''
+		 };
+		 $.datepicker.setDefaults($.datepicker.regional['es']);
+		$(function () {
+			$("#fecha").datepicker();
+		});
+		
+		</script>
+
+<script type="text/javascript">
+	
+
+	$("#nuevo").click(function(){
+		var ini=$("#fecha").val();
+
+
+		$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: "{{url_for('modificar_firma')}}",
+						  data: JSON.stringify({inicio:ini}),
+						  success: function (data) {						    
+						   location.reload()	
+						  },
+						  dataType: "json"
+						});
+	});
+</script>
+{% endblock %}

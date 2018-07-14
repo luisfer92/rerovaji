@@ -1,0 +1,101 @@
+{% macro menu(icono,titulo,submenu) %}
+    <li class="nav-item" data-toggle="tooltip" data-placement="right" title="{{titulo}}">
+          <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapse{{titulo}}" data-parent="#exampleAccordion">
+            <i class="fa fa-fw fa-{{icono}}"></i>
+            <span class="nav-link-text">{{titulo}}</span>
+          </a>
+          <ul class="sidenav-second-level collapse" id="collapse{{titulo}}">
+            {% for sub in submenu%}
+
+              <li>
+                <a href="{{ sub[1]}}">{{sub[0]}}</a>
+              </li>
+            {% endfor %}
+            
+          </ul>
+        </li>
+{% endmacro %}
+
+
+{% macro menu_admin()%}
+    {% set icono="calendar" %}
+          {% set nombre="Horarios" %}
+          {% 
+            set submenu=["Crear",url_for('nuevo_horario')],
+            ["Modificar",url_for('modificar_horario')]           
+          %}
+          
+         {{menu(icono,nombre,submenu)}}
+
+         {% set icono="child" %}
+         {% set nombre="Personal" %}
+          {% 
+            set submenu=["Crear",url_for('nuevo_trabajador')],
+            ["Modificar",url_for('modificar_trabajador')],
+            ["Borrar", url_for('borrar_trabajador')],
+            ["Horas extra", url_for("horas_extra")]
+          %}
+          
+         {{menu(icono,nombre,submenu)}}
+
+         {% set icono="user" %}
+         {% set nombre="Usuarios" %}
+         {% 
+            set submenu=["Asignar Permiso",url_for('asignar_permiso')],
+            ["Eliminar usuarios","#"]
+            
+          %}
+          
+         {{menu(icono,nombre,submenu)}}
+
+         {% set icono="pencil" %}
+         {% set nombre="Firmas" %}
+          {% 
+            set submenu=["Entradas/salidas",url_for('firmar')],
+            ["Modificar",url_for('modificar_firma')]            
+          %}
+          
+         {{menu(icono,nombre,submenu)}}
+
+         
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Tables">
+          <a class="nav-link" href="{{url_for('ajustes')}}">
+            <i class="fa fa-fw fa-wrench"></i>
+            <span class="nav-link-text">Ajustes</span>
+          </a>
+        </li>
+        
+{% endmacro %}
+
+{% macro menu_encargado()%}
+      {% set icono="calendar" %}
+          {% set nombre="Horarios" %}
+          {% 
+            set submenu=["Crear",url_for('nuevo_horario')],
+            ["Modificar",url_for('modificar_horario')]           
+          %}
+          
+         {{menu(icono,nombre,submenu)}}
+
+          {% set icono="pencil" %}
+         {% set nombre="Firmas" %}
+          {% 
+            set submenu=["Entradas/salidas",url_for('firmar')],
+            ["Modificar",url_for('modificar_firma')]            
+          %}
+          
+         {{menu(icono,nombre,submenu)}}
+
+{% endmacro%}
+    
+{% macro menu_empleado() %}
+  {% set icono="calendar" %}
+          {% set nombre="Horario" %}
+          {% 
+            set submenu=["Ver",url_for('mostrar_horario')],
+            ["Sugerencia",'#']           
+          %}
+          
+         {{menu(icono,nombre,submenu)}}
+{% endmacro %}
+

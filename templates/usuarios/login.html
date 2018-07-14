@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Rerovaji-login</title>
+  <!-- Bootstrap core CSS-->
+  <link href="/static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="/static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Page level plugin CSS-->
+  <link href="/static/css/sb-admin.css" rel="stylesheet">
+</head>
+
+<body class="bg-dark">
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Login</div>
+      <div class="card-body">
+
+        <form role="form" method="post">
+        	{{form.hidden_tag()}}
+          <div class="form-group">
+            <label for="exampleInputEmail1">Email address</label>
+            {{ form.email(size=80,type="email", class="form-control",placeholder="Introduce tu email" )}}
+            
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Password</label>
+           {{ form.password(size=80, type="password", class="form-control", placeholder="Introduce tu contra" )}}
+          </div>
+          </br>
+      	  </br>
+          <center>
+          <button type="submit" class="btn btn-primary btn-block">Login</button>
+          </center>
+        </form>
+
+
+        <div class="text-center">
+          <p>¿ No tienes cuenta ?<a class="d-block small mt-3" href="{{url_for('register')}}">Registrate</a>
+         
+        </div>
+      </div>
+    </div>
+  </div>
+ <script src="/static/vendor/jquery/jquery.min.js"></script>
+ <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+ <!-- Core plugin JavaScript-->
+ <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+ <!-- Page level plugin JavaScript-->
+</body>
+
+</html>

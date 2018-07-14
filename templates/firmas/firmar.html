@@ -1,0 +1,137 @@
+{% extends "base.html"%}
+{% block subpagina%}Inicio{% endblock%}
+
+{% block estilos %}
+	<link rel="stylesheet" type="text/css" href="/static/css/stilo.css">
+{% endblock %}
+
+{% block info%}
+
+
+
+	<div id="pass" >
+		<center>
+
+				<i class="fa fa-window-close fa-3x" style="position:absolute; right: 0.5%; top:0.5%; color:#e01400;" onclick="esconder()" aria-hidden="true"></i>
+	  			<h1 id="pass_nombre">Nombre</h1>
+	  			<h3 id="tipo">tipo</h3>
+	  			<div style="margin-top: 10%;" class="form-group">
+	    			<label for="pwd">Contraseña:</label>
+	    			<input type="password" class="form-control" id="pwd">
+	  			</div>
+	  			<button class="btn btn-default" onclick="llamada()">Fimar</button>
+			
+
+		</center>
+	</div>
+
+{% endblock %}
+{% block content%}
+	<table class="table table-hover">
+	    <thead>
+	        <tr>
+	        	<th>Trabajador</th>
+	        	<th>Entrada</th>
+	        	<th>Salida</th>
+	        </tr>
+	    </thead>
+	   	    <tbody>
+	  	    	{% for trabajador in plantilla %}
+				<tr>
+		        	<td>{{trabajador.nombre}} {{trabajador.apellido}}</td>
+		        	<td>
+		        	{% if trabajador.id|isEntrada!="" %}
+		        		<button  class="btn btn-success btn-outline">{{trabajador.id|isEntrada}}</button>		        		
+		        	{% else %}
+		        		<button onclick="entrada('{{trabajador.id}}','{{trabajador.nombre}}')" class="btn btn-success btn-outline">Entrada</button>
+		        	{% endif %}
+		        	</td>
+		        	<td>
+		        	{% if trabajador.id|isSalida!="" %}
+		        		<button  class="btn btn-warning btn-outline">{{trabajador.id|isSalida}}</button>
+		        	{% else %}
+		        	<button onclick="salida('{{trabajador.id}}','{{trabajador.nombre}}')" class="btn btn-warning btn-outline">Salida
+		        	</button>
+		        	{% endif %}
+		        	</td>
+		        	
+		    	</tr>
+	   			{% endfor %}		    	             
+   				</tbody>
+	</table>
+
+</hr>
+	</br>
+	<CENTER><h1>Firmas de hoy</h1></CENTER>
+	<table class="table table-hover">
+	    <thead>
+	        <tr>
+	        	<th>Trabajador</th>
+	        	<th>Entrada</th>
+	        	<th>Salida</th>
+	        </tr>
+	    </thead>
+	   	    <tbody>
+	   	    	
+	  	    	{% for firma in firmas%}
+	  	    	<tr>
+					<td>{{firma.id_trabajador|nameByID}}</td>
+					<td>{{firma.entrada}}</td>
+					<td>{{firma.salida}}</td>
+				</tr>	
+	   			{% endfor %}	
+	   			    	             
+   			</tbody>
+
+	</table>
+
+{% endblock %}
+{%block scripts%}
+<script>
+
+	var url=""
+	var trabajador_id=""
+
+	function esconder(){
+		$("#pass").hide('slow')
+	}
+
+	function entrada(t_id,nombre){
+		url="{{url_for('addEntrada')}}";
+		trabajador_id=t_id
+		$("#pass_nombre").html(nombre)
+		$("#tipo").html("entrada")
+		$("#pass").show('slow')
+		
+	}
+
+	function salida(t_id,nombre){
+		url="{{url_for('addSalida')}}"
+		trabajador_id=t_id
+		$("#pass_nombre").html(nombre)
+		$("#tipo").html("salida")
+		$("#pass").show("slow")
+		
+		
+
+	}
+
+	function llamada(){
+		console.log(url)
+		console.log(trabajador_id)
+		esconder()
+		pass=$("#pwd").val()
+		$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: url,
+						  data: JSON.stringify({trabajador_id:trabajador_id,password:pass}),
+						  success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+						  },
+						  dataType: "json"
+						});
+	}
+</script>
+{% endblock %}

@@ -1,0 +1,39 @@
+{% extends "base.html"%}
+{% block subpagina%}Inicio{% endblock%}
+{% block content%}
+	
+	
+   	{% for trabajador in plantilla %}
+   	{% if loop.index%3==1 %}
+   		<div class="row">
+   	{% endif %}
+   			<div class="col-md-4">
+	               <div class="card mb-3">
+	              <a href="#">
+	                <img class="card-img-top img-fluid w-100" src="https://cdn0.iconfinder.com/data/icons/streamline-emoji-1/48/142-man-cook-2-512.png" alt="" style="max-width: 512px; max-height: 512px;">
+	              </a>
+	              <div class="card-body">
+	                <h6 class="card-title mb-1"><a href="#">{{trabajador.nombre}}</a></h6>
+	              </div>
+	              <hr class="my-0">
+	              <div class="card-body py-2 small">
+	                <a class="mr-3 d-inline-block" href="#">
+	                  <i class="fa fa-fw fa-phone"></i>{{trabajador.telefono}}</a>
+	               
+	              </div>
+	              <div class="card-footer small text-muted">
+	              	<a class="btn btn-primary" href="{{url_for('modificar_trabajador')}}/{{trabajador.id}}">Mofificar {{loop.count}}</a>
+	              </div>
+	            </div>
+	         </div>
+	{% if loop.index%3==0%}
+   		</div>
+   	{% endif %}
+
+
+
+   	
+	  
+		   		
+   	{% endfor %}
+{% endblock %}

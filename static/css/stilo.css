@@ -1,0 +1,68 @@
+body {
+    color: red;
+    background-color: #fff;
+    color:black;
+}
+
+.aprobado{
+    color:#7FFF99;
+}
+
+.rechazado{
+    color:#e01400;
+}
+.navbar-brand{
+    color:#e01400 !important;
+    font-size: 150% !important;
+}
+
+.mando{
+    float:right;  
+    top: 20%; 
+    right: 0px; 
+    background-color:#fff; 
+    padding:6px; 
+    position: fixed; 
+    border-radius:8px; 
+    width: 80px; 
+    height: 80px
+}
+
+#pass{
+    z-index: 1;
+    display:none;
+    float:right; 
+    top: 25%;  
+    left: 25%; 
+    background-color:#fff; 
+    padding:6px;
+    position: fixed; 
+    border-radius:8px;
+    width: 50%; 
+    height: auto;
+    -webkit-box-shadow: 0px 0px 300px 200px rgba(0,0,0,0.46);
+    -moz-box-shadow: 0px 0px 300px 200px rgba(0,0,0,0.46);
+    box-shadow: 0px 0px 300px 200px rgba(0,0,0,0.46);
+}
+
+#cabecera_horarios{
+    text-align: center;
+}
+
+#cuerpo_horarios{
+    color:#e01400;
+    background-color: #fff;
+}
+
+.explicacion{
+    padding-left: 2em;
+}
+
+.centrado{
+    text-align: center;
+}
+
+.reducido{
+
+    font-size: 10px;
+}

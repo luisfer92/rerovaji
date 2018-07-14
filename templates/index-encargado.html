@@ -1,0 +1,13 @@
+{% extends "base-base.html"%}
+{% from "/macros/widgets.html" import cambios %}
+
+
+
+{% block subpagina%}Inicio{% endblock%}
+
+{%block barra %} {{barra()}} {% endblock %}
+{% block content%}
+    {{cambios()}}
+{% endblock %}
+{% block scripts %}
+{%endblock%}

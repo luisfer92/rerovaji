@@ -1,0 +1,88 @@
+{% extends "base.html"%}
+{% block subpagina%}Inicio{% endblock%}
+{% block content%}
+	
+		<table class="table table-bordered" style="background-color: white;">
+			<thead>
+			   	<tr>
+			      	<th>Horarios</th>
+			       	<th class="centrado">Compartir</th>
+			       	<th class="centrado">Borrar</th>
+			   	</tr>
+		    </thead>
+		    <tbody>
+		    	{% for horario in horarios %}
+				<tr>
+	   				<td>
+	   					<a href="#" inicio="{{horario.inicio}}" fin="{{horario.fin}}" onclick="entrar(this)">
+	    					<p>Horario de la semana del {{horario.inicio}} al {{horario.fin}}</p>
+	   					</a>
+	   				</td>
+	   				<td>
+	   					<center>
+	   						<a href="#" inicio="{{horario.inicio}}" fin="{{horario.fin}}" onclick="enviar(this)">
+	   							<img border="0" src="https://cdn2.iconfinder.com/data/icons/social-icons-33/128/WhatsApp-64.png" width="64px" height="64px">
+	   						</a>
+	   					</center>
+		    		</td>
+		    		<td>
+		    			<center>
+		    				<button class="btn btn-primary btn-danger" onclick="borrar('{{horario.inicio}}')">Borrar</button>
+		    			</center>
+
+		    		</td>
+		    	</tr>
+		    	{% endfor %}
+		    </tbody>
+		</table>
+		
+		    		
+	
+{% endblock %}
+{% block scripts %}
+	<script type="text/javascript">
+
+		function ajax(enlace,url){
+			var inicio=$(enlace).attr("inicio");
+			var fin=$(enlace).attr("fin");
+
+				$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: url,
+						  data: JSON.stringify({inicio:inicio,fin:fin}),
+						  success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+						  },
+						  dataType: "json"
+						});
+				
+				
+			}
+		function entrar(enlace){
+			ajax(enlace,"{{url_for('modificar_horario')}}");
+			
+
+		}
+		
+		function enviar(enlace){
+			ajax(enlace,"{{url_for('enviar_horario')}}")
+		}
+
+		function borrar(id){
+			$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: "{{url_for('borrar_horario')}}",
+						  data: JSON.stringify({id_horario:id}),
+						  success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+						  },
+						  dataType: "json"
+						});
+				
+		}
+	</script>
+{% endblock %}

@@ -1,0 +1,146 @@
+{% extends "base.html"%}
+{% block subpagina %} Inicio{% endblock %}
+{% block content %}
+
+<table class="table table-hover">
+	    <thead>
+	        <tr>
+	        	<th>Nombre</th>
+	        	<th>Entrada</th>
+	        	<th>Salida</th>
+	        	<th>Fecha</th>
+	        	<th>Ajuste</th>
+	        	
+	        </tr>
+	    </thead>
+	   	<tbody>
+	  	    	
+				
+					{% for item in parte%}
+					
+						{% for parte in item%}
+						<tr id="{{parte.id}}">
+							<td>
+								<input class="centrado form-control id_trabajador" placeholder="{{parte.id_trabajador|nameByID}}" onfocusout="corregir(this)" disabled>
+							</td>
+							<td>
+								<input class="centrado form-control entrada" placeholder="{{parte.entrada}}" onfocusout="corregir(this)">
+							</td>
+							<td>
+								<input class="centrado form-control salida" placeholder="{{parte.salida}}" onfocusout="corregir(this)">
+							</td>
+							<td>
+								<p class="centrado .fecha" data-fecha="{{parte.fecha}}">{{parte.fecha}}</p>
+							</td>
+							<td>
+								<button class="btn btn-primary btn-xs" onclick="redondeo({{parte.id}})">Autoajustar</button>
+								
+							</td>
+						</tr>
+						{% endfor %}
+					
+					{% endfor %}
+
+
+					
+		    	
+	   					    	             
+   		</tbody>
+	</table>
+	<center><button class="btn btn-primary btn-success" onclick="guardar()">Guardar</button></center>
+{% endblock %}
+
+{% block scripts %}
+<script>
+
+	function corregir(elemento){
+		hora=$(elemento).val().trim()
+		formato=RegExp("^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+
+		if (!formato.test(hora)){
+			$(elemento).css("background-color", "#ff1a1a");
+		}else{
+			$(elemento).css("background-color","#fff");
+		}
+
+	}
+
+
+	function redondeo(id_parte){
+		
+		var parte=$("#"+id_parte);
+		
+		var entrada=$(parte).find(".entrada").attr("placeholder");
+		var salida=$(parte).find(".salida").attr("placeholder");
+		
+
+		horas_entrada=entrada.split(/[:]/)
+		horas_salida=salida.split(/[:]/)
+
+		if (parseInt(horas_entrada[1])>=30){
+			horas_entrada[1]="30"
+		}else{
+			horas_entrada[1]="00"
+		}
+		if (parseInt(horas_salida[1]>=30)){
+			horas_salida="30"
+		}else{
+			horas_salida="00"
+		}
+
+		entrada=horas_entrada.join(":")
+		salida=horas_entrada.join(":")
+
+		
+
+
+		$(parte).find(".entrada").attr("placeholder",entrada)
+		$(parte).find(".salida").attr("placeholder",salida)
+		
+
+		
+	}	
+
+
+	function guardar(){
+		datos=[]
+		$("tbody").find("tr").each(function(){
+			var id_parte=$(this).attr("id")
+			var entrada=$(this).find(".entrada").val();
+			var salida=$(this).find(".salida").val();
+			var fecha=$(this).find("p").html()
+
+			if (salida==""){
+				salida=$(this).find(".salida").attr("placeholder")
+			}
+
+			if (entrada==""){
+				entrada=$(this).find(".entrada").attr("placeholder")
+			}
+
+			datos.push({id_parte:id_parte,entrada:entrada,salida:salida,fecha:fecha});
+
+				
+
+		});
+
+		console.log(datos)
+		$.ajax({
+						  type: "POST",
+						  contentType: "application/json; charset=utf-8",
+						  url: "{{url_for('modificar_firma_post')}}",
+						  data: JSON.stringify({
+						  						datos:datos
+						  						}),
+						  success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+						  },
+						  dataType: "json"
+						});
+
+		
+	}
+</script>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base.html"%}
+{% block subpagina%}Nuevo trabajador{% endblock%}
+{% block content%}
+		        
+
+		        <CENTER>
+			    	<form role="form" method="post">
+			    		{{form.hidden_tag()}}
+		  			<div class="form-group">
+		    			<label for="nombre">Nombre:</label>
+		    			{{ form.nombre(size=80, class="form-control")}}
+		    			
+		  			</div>
+		  			<div class="form-group">
+		    			<label for="apellidos">Apellidos:</label>
+		    			{{ form.apellido(size=80, class="form-control")}}
+		  			</div>
+		  			<div class="form-group">
+		    			<label for="dni">DNI:</label>
+		    			{{ form.dni(size=80, class="form-control")}}
+		  			</div>
+		  			<div class="form-group">
+		    			<label for="telefono">Telefono:</label>
+		    			{{ form.telefono(size=80, class="form-control")}}
+		  			</div>
+		  			<div class="form-group">
+		    			<label for="contrato">Contrato:</label>
+		    			{{ form.contrato(size=80, class="form-control")}}
+		  			</div>
+		  			<div class="form-group">
+		    			<label for="local">Local:</label>
+		    			{{ form.local(size=80, class="form-control",value=session["local"])}}
+		  			</div>
+		  			<button type="submit" class="btn btn-default">Guardar</button>
+		  			</form>
+		  		</CENTER>
+				
+				</br>
+				{% with message=get_flashed_messages() %}
+					{% if message %}
+						{% for m in message %}
+							<div class="alert alert-success"><strong>{{m}}</strong></div>
+						{% endfor %}
+					{% endif %}
+				{% endwith %}
+{% endblock %}

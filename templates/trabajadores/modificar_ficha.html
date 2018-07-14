@@ -1,0 +1,47 @@
+{% extends "base.html"%}
+{% block subpagina%}Modificar {{trabajador.nombre}}{% endblock%}
+{% block content%}
+	<label for="nombre">Nombre:</label>
+ 	<input class="form-control" id="nombre" placeholder="{{trabajador.nombre}}">
+  	<label for="apellidos">Appellidos:</label>
+  	<input class="form-control" id="apellidos" placeholder="{{trabajador.apellido}}">
+  	<label for="dni">DNI:</label>
+  	<input class="form-control" id="dni" placeholder="{{trabajador.dni}}">
+ 	<label for="telefono">Telefono:</label>
+  	<input class="form-control" id="telefono" placeholder="{{trabajador.telefono}}">
+  	<label for="contrato">Contrato:</label>
+  	<input class="form-control" id="contrato" placeholder="{{trabajador.contrato}}">
+				  	
+<center><button class="btn btn-primary btn-warning" id="modificar">Modificar</button></center>
+				
+{% endblock %} 
+{% block scripts%}
+<script type="text/javascript">
+	$("#modificar").click(function() {
+
+		var nombre=$("#nombre").val()
+		var apellido=$('#apellidos').val()
+		var dni=$("#dni").val()
+		var telefono=$("#telefono").val()
+		var contrato=$("#contrato").val()
+
+		
+
+		$.ajax({
+			type: "POST",
+			contentType: "application/json; charset=utf-8",
+			url: "{{url_for('modificar_trabajador')}}/{{trabajador.id}}",
+			data: JSON.stringify({nombre:nombre,apellido:apellido,dni:dni,telefono:telefono,contrato:contrato}),
+			success: function (data) {
+						    console.log(data.status)
+						    location.reload();
+					},
+			dataType: "json"
+		});
+				
+		console.log(nombre)
+	});
+</script>
+{% endblock %}
+
+
