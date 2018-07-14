@@ -2,7 +2,7 @@ from flask import Flask, render_template,request,flash,jsonify,redirect,url_for,
 from forms import nuevoTrabajador,loginForm,registerForm
 from tiempo import Dia,Tiempo
 import controladorBaseDatos as BD
-import guardarHorarioImagen as saveH
+
 import os
 from utils.decoradores import rol_required,login_required
 import time
